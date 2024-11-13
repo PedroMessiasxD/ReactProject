@@ -1,59 +1,63 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { HiMenuAlt3, HiUserAdd, HiUsers, HiLogout } from 'react-icons/hi';
-import { logout } from '../Services/Auth'
+import { logout } from '../Services/Auth';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-export const Navigation = ({ setActiveComponent }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+export const Navigation = () => {
+    const navigate = useNavigate();
+    const { participante } = useAuth(); // Se necessário
+    const [isExpanded, setIsExpanded] = useState(false);
 
-  const menuItems = [
-    { name: 'Solicitar Cadastro', icon: HiUserAdd, component: 'register' },
-    { name: 'Listar Usuários', icon: HiUsers, component: 'list' },
-  ];
+    const menuItems = [
+        { name: 'Solicitar Cadastro', icon: HiUserAdd, path: '/registerform' },
+        { name: 'Listar Usuários', icon: HiUsers, path: '/userlist' },
+    ];
 
- return (
-    <div
-      className={`bg-gray-800 h-screen ${
-        isExpanded ? 'w-72' : 'w-16'
-      } duration-300 relative flex flex-col`}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
-    >
-      <div className="p-4">
-        <HiMenuAlt3 className="text-white text-2xl cursor-pointer" />
-      </div>
-      <nav className="mt-4 flex-1">
-        {menuItems.map((item, index) => (
-          <div
-            key={index}
-            className="p-4 text-gray-300 flex items-center cursor-pointer hover:bg-gray-700"
-            onClick={() => setActiveComponent(item.component)}
-          >
-            <item.icon className="text-2xl" />
-            <span
-              className={`ml-4 duration-300 ${
-                !isExpanded && 'opacity-0 overflow-hidden'
-              }`}
-            >
-              {item.name}
-            </span>
-          </div>
-        ))}
-      </nav>
-      <div
-        className="p-4 text-red-400 flex items-center cursor-pointer hover:bg-gray-700 mb-4"
-        onClick={logout}
-      >
-        <HiLogout className="text-2xl" />
-        <span
-          className={`ml-4 duration-300 ${
-            !isExpanded && 'opacity-0 overflow-hidden'
-          }`}
+    const { mutate: logoutFn } = useMutation({
+        mutationFn: logout,
+        onSuccess: () => {
+            localStorage.removeItem("jwtToken");
+            localStorage.removeItem("userId");
+            navigate("/");
+        },
+        onError: (error) => {
+            console.log("Erro ao fazer logout", error);
+        }
+    });
+
+    return (
+        <div
+            className={`fixed top-0 left-0 h-screen overflow-y-auto bg-gray-800 ${isExpanded ? 'w-72' : 'w-16'} duration-300 flex flex-col`}
+            onMouseEnter={() => setIsExpanded(true)}
+            onMouseLeave={() => setIsExpanded(false)}
         >
-          Sair
-        </span>
-      </div>
-    </div>
-  );
-}
+            <nav className="mt-8 flex-1">
+                {menuItems.map((item, index) => (
+                    <div
+                        key={index}
+                        className="p-4 text-gray-300 flex items-center cursor-pointer hover:bg-gray-700"
+                        onClick={() => navigate(item.path)}
+                    >
+                        <item.icon className="text-2xl" />
+                        {isExpanded && (
+                            <span className="ml-4 duration-300">{item.name}</span>
+                        )}
+                    </div>
+                ))}
+            </nav>
+            <div
+                className="p-4 text-red-400 flex items-center cursor-pointer hover:bg-gray-700 mb-4"
+                onClick={() => logoutFn()}
+            >
+                <HiLogout className="text-2xl" />
+                {isExpanded && (
+                    <span className="ml-4 duration-300">Sair</span>
+                )}
+            </div>
+        </div>
+    );
+};
 
 export default Navigation;

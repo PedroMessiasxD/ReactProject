@@ -1,0 +1,104 @@
+/* Estilos para o formulário de login do administrador */
+
+.admin-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para o container da imagem */
+.admin-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #101238; /* Cor de fundo para destacar a imagem */
+    padding: 20px;
+}
+
+.admin-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* Bordas arredondadas para a imagem */
+}
+
+/* Linha divisória entre a imagem e o formulário de login */
+.admin-divider {
+    width: 2px;
+    background-color: #ddd;
+    height: 60%; /* Ajuste conforme necessário */
+    margin: 0 20px; /* Espaçamento entre a imagem e o formulário */
+}
+
+.admin-login-box {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+}
+
+.error-message {
+    color: #ff4d4d; /* Cor de erro em vermelho */
+    font-size: 14px;
+    margin-top: 10px;
+    background-color: rgba(255, 77, 77, 0.1); /* Fundo claro para destacar a mensagem */
+    padding: 8px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.admin-login-box h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.admin-login-box label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.admin-login-box input[type="email"],
+.admin-login-box input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+    font-size: 16px;
+}
+
+.admin-login-box input[type="email"]:focus,
+.admin-login-box input[type="password"]:focus {
+    border-color: #4b6cb7;
+    outline: none;
+    background: #e6e6e6;
+}
+
+.admin-login-box button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #4b6cb7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-login-box button:hover {
+    background-color: #121824;
+}
+
+.admin-login-box button:active {
+    transform: scale(0.98);
+}

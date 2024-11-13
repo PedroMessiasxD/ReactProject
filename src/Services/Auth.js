@@ -33,14 +33,19 @@ const loginUser = async ({ email, senha }) => {
 // hooks
 export const logout = async () => {
     const token = localStorage.getItem('jwtToken');
+    console.log("Token:", token); 
+    if (!token) {
+        console.log("Não foi encontrado token")
+        return;
+    }
     const response = await connector.post("Account/logout", {}, {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
     });
-    console.log(token)
     return response.data;
-}
+};
+
 export const useRegisterUser = (options = {}) => {
     const navigate = useNavigate();
     return useMutation({
