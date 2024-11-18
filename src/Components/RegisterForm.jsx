@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSolicitarCadastro } from '../Services/Empresa';
+import { useAuth } from '../context/AuthContext';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -12,18 +13,30 @@ const RegisterForm = () => {
     adminPhone: ''
   });
 
+  // Obtém o token armazenado no localStorage
+  const { token } = useAuth();
+
   const { mutate: solicitarCadastro, isLoading, isError, error } = useSolicitarCadastro();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!token) {
+      console.error('Token não encontrado. Certifique-se de que o usuário está autenticado.');
+      return;
+    }
+
     solicitarCadastro({
-      nomeEmpresa: formData.companyName,
-      descricaoEmpresa: formData.description,
-      setorAtuacao: formData.sector,
-      linkRedeSocial: formData.socialMedia,
-      nomeAdministrador: formData.adminName,
-      emailAdministrador: formData.adminEmail,
-      telefoneAdministrador: formData.adminPhone
+      data: {
+        nomeEmpresa: formData.companyName,
+        descricaoEmpresa: formData.description,
+        setorAtuacao: formData.sector,
+        linkRedeSocial: formData.socialMedia,
+        nomeAdministrador: formData.adminName,
+        emailAdministrador: formData.adminEmail,
+        telefoneAdministrador: formData.adminPhone
+      },
+      token
     });
   };
 
@@ -108,7 +121,7 @@ const RegisterForm = () => {
         >
           {isLoading ? 'Enviando...' : 'Enviar Cadastro'}
         </button>
-        {isError && <p className="text-red-500">{error.message}</p>}
+        {isError && <p className="text-red-500">{error?.response?.data?.message || error.message}</p>}
       </form>
     </div>
   );
