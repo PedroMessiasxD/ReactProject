@@ -15,6 +15,11 @@ import LayoutAdmin from "../Layouts/LayouTAdmin.jsx";
 import { PromoteUser } from "../Components/PromoverUsuario.jsx";
 import Requests from "../Components/Requests.jsx";
 import Companies from "../Components/Companies.jsx";
+import UserAssociation from "../Components/UserAssociation.jsx";
+import Campanha from "../Components/Campanha.jsx";
+import Postagens from "../Components/Postagens.jsx";
+import SolicitacoesAdmin from "../Components/SolicitacoesAdmin.jsx";
+import Historico from "../Components/Historico.jsx";
 
 const router = createBrowserRouter([
     {
@@ -42,17 +47,80 @@ const router = createBrowserRouter([
         element: <LayoutAdmin />,
         children: [
             {
+                path: "/campanha",
+                element: <Campanha />
+            }
+        ]
+    },
+    {
+        element: <LayoutAdmin />,
+        children: [
+            {
+                path: "/campanha",
+                element: <Campanha />
+            }
+        ]
+    },
+    {
+        element: <LayoutAdmin />,
+        children: [
+            {
+                path: "/postagens",
+                element: <Postagens />
+            }
+        ]
+    },
+     {
+        element: <LayoutAdmin />,
+        children: [
+            {
+                path: "/solicitacoes",
+                element: <SolicitacoesAdmin />
+            }
+        ]
+    },
+    {
+        element: <LayoutAdmin />,
+        children: [
+            {
                 path: "/promoteuser",
                 element: <PromoteUser />
             }
         ]
     },
-      {
+    {
         element: <LayoutAdmin />,
         children: [
             {
                 path: "/empresas",
                 element: <Companies />
+            }
+        ]
+    },
+     {
+        element: <LayoutAdmin />,
+        children: [
+            {
+                path: "/userassociation",
+                element: <UserAssociation />
+            }
+        ]
+    },
+     {
+        element: <LayoutAdmin />,
+        children: [
+            {
+                path: "/Historico",
+                element: <Historico />
+            }
+        ]
+    },
+     {
+        element: <LayoutAdmin />,
+        children: [
+            {
+                path: "/registerforadmin",
+                element: <RegisterForm />
             }
         ]
     },

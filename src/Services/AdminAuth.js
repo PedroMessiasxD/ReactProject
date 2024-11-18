@@ -27,7 +27,7 @@ export const useAdminLogin = (options = {}) => {
             console.log(userId)
             console.log(data.userId)
 
-            if (data.roles.includes('AdminGlobal')) {
+            if (data.roles.includes('AdminEmpresarial')) {
                 navigate('/userlistadmin');
             } else {
                 console.error("Usuario não possui permissões de adminisstrador");

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAdminLogin } from '../Services/AdminAuth';
 import '../style/adminLogin.css';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
@@ -8,21 +9,36 @@ const AdminLogin = () => {
     const [errorMessage, setErrorMessage] = useState(''); // Estado para mensagem de erro
     const { mutate: adminLogin } = useAdminLogin({
         onError: (error) => {
-            setErrorMessage("Erro ao fazer login: Usuário ou senha incorretos ou sem permissões administrativas."); 
+            setErrorMessage("Erro ao fazer login: Usuário ou senha incorretos ou sem permissões administrativas.");
         }
     });
+    const navigate = useNavigate();
 
-    const handleAdminLogin = (e) => {
+    const handleAdminLogin = async (e) => {
         e.preventDefault();
-        setErrorMessage(''); // Limpa a mensagem de erro antes de tentar o login
-        adminLogin({ email, senha }, {
-            onSuccess: (data) => {
-                if (!data.roles.includes('AdminGlobal')) {
-                    setErrorMessage('Este perfil não possui permissões de administrador.');
-                }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            setErrorMessage("Por favor, insira um email válido.");
+            return;
+        }
+
+        setErrorMessage(""); // Limpa qualquer mensagem de erro anterior
+
+        try {
+            const data = await adminLogin({ email, senha });
+
+            if (!data.roles.includes('AdminGlobal')) {
+                setErrorMessage("Este perfil não possui permissões de administrador.");
+                return;
             }
-        });
+
+            navigate('/userlistadmin'); // Ajuste a rota conforme necessário
+        } catch (error) {
+            setErrorMessage("Credenciais inválidas");
+        }
     };
+
 
     return (
         <div className="admin-login-container">
